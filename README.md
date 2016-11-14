@@ -7,11 +7,13 @@ Floating-point powers and logarithms are [surprisingly expensive](https://en.wik
 
 I've tested the same worker function with vanilla C++/STL and OpenCL (using Cpp wrappers). The vanilla `straight.cpp` implementation is very simple and easy to read.  The `opencl.cpp` has a tremendous amount of boilerplate, argument passing, etc.  But I find the later to be ~20x faster, which is on par with the number of compute nodes my GPU has (24). So, the benefit seems quite real. Here's hoping Cpp17 and SYCL will simplify the logistics for us soon.
 
+
 ## Details
 
 * Tested with intel i5-5300U (broadwell), Debian Jessie
 * Install prereqs: `sudo apt-get install opencl-clhpp-headers beignet-dev beignet-opencl-icd intel-gpu-tools`
 * Run with: `make; time./opencl; time ./straight`
+* Credits: [OpenCL example](http://simpleopencl.blogspot.com/2013/06/tutorial-simple-start-with-opencl-and-c.html)
 
 ## Testing
 * Play with values in `const.h`
