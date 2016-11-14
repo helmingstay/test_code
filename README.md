@@ -10,14 +10,14 @@ I've tested the same worker function with vanilla C++/STL and OpenCL (using Cpp 
 ## Details
 
 * Tested with intel i5-5300U (broadwell)
--- Debian Jessie
+ -- Debian Jessie
 * Installed:
--- `sudo apt-get install opencl-clhpp-headers beignet-dev beignet-opencl-icd intel-gpu-tools`
+ -- `sudo apt-get install opencl-clhpp-headers beignet-dev beignet-opencl-icd intel-gpu-tools`
 * run with: 
--- `make; time./opencl; time ./straight`
+ -- `make; time./opencl; time ./straight`
 
 ## Testing
 * Play with values in `const.h`
--- `the_dim` and `max_iter` determine job size
--- `opencl` fails for small `the_dim`, and some sizes of `the_grp`
--- Try an alternate kernel (uncomment) to see how functions can differ between C++ STL and OpenCL
+ -- `the_dim` and `max_iter` determine job size
+ -- `opencl` fails for small `the_dim`, and some sizes of `the_grp`
+ -- Try an alternate kernel (uncomment) to see how functions can differ between C++ STL and OpenCL
