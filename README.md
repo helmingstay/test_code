@@ -10,7 +10,7 @@ I've tested the same worker function with vanilla C++/STL and OpenCL (using Cpp 
 ## Details
 
 * Tested with intel i5-5300U (broadwell), Debian Jessie
-* Install with: `sudo apt-get install opencl-clhpp-headers beignet-dev beignet-opencl-icd intel-gpu-tools`
+* Install prereqs: `sudo apt-get install opencl-clhpp-headers beignet-dev beignet-opencl-icd intel-gpu-tools`
 * Run with: `make; time./opencl; time ./straight`
 
 ## Testing
