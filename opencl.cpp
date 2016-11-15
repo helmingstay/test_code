@@ -4,11 +4,7 @@
      
 int main(){
     // data structure to work on
-	array_t A;
-    // fill
-    for (size_t ii{0}; ii<the_dim; ii++){
-        A[ii] = ii+offset;
-    }
+	auto A = fill(the_dim);
 
     // buffer size
     const size_t the_size = sizeof(cell_t) * the_dim;

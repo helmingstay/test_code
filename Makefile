@@ -1,9 +1,10 @@
 LDLIBS += -lOpenCL
+IBOOST := -I/home/xian/src/compute/include
 #TARGETS = $(wildcard *.cpp)
 CXXFLAGS += -Wall -std=c++11
 CXX = g++
 
-all: opencl straight
+all: opencl straight boost
 
 opencl: opencl.cpp const.h
 	$(CXX) $(CXXFLAGS) $(LDLIBS) -o opencl opencl.cpp 
@@ -11,6 +12,8 @@ opencl: opencl.cpp const.h
 straight: straight.cpp const.h
 	$(CXX) $(CXXFLAGS) -o straight straight.cpp 
 
+boost: boost.cpp const.h
+	$(CXX) $(IBOOST) $(CXXFLAGS) $(LDLIBS) -o boost boost.cpp 
 
 clean:
-	@rm opencl straight
+	@rm opencl straight boost
