@@ -15,6 +15,7 @@ Credits: [OpenCL example](http://simpleopencl.blogspot.com/2013/06/tutorial-simp
   * Intel GPU (>= broadwell)
 * Install prereqs: `sudo apt-get install opencl-clhpp-headers beignet-dev beignet-opencl-icd intel-gpu-tools`
 * [Boost.Compute](http://boostorg.github.io/compute) - include-only
+  * Makefile assumes Boost.compute repo resides under `$HOME/src`
 * As written, Boost.Compute example depends on boost (which is huge):
   * `sudo apt-get install libboost-all-dev`
 * Run with: `make; time ./opencl; time ./boost; time ./straight`

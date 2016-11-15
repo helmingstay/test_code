@@ -1,5 +1,5 @@
 LDLIBS += -lOpenCL
-IBOOST := -I/home/xian/src/compute/include
+IBOOST := -I$(HOME)/src/compute/include
 #TARGETS = $(wildcard *.cpp)
 CXXFLAGS += -Wall -std=c++11
 CXX = g++
