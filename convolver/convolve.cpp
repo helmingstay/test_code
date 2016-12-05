@@ -2,18 +2,27 @@
 using Rcpp::NumericVector;
 
 // [[Rcpp::export]]
-void convolveCpp(const NumericVector a, const NumericVector b, NumericVector xab) {
-	int na = a.size(), nb = b.size();
-	if ( (na + nb-1) != xab.size() ) {
-		Rcpp::Rcout << "ab.size: " << na+nb << ", xab.size: " << xab.size() << std::endl;
+void convolveCpp(const NumericVector xx, const NumericVector dat, NumericVector ans) {
+    size_t nxx = xx.size();
+    size_t ndat = dat.size(); 
+	if ( (ndat + nxx-1) != ans.size() ) {
+		Rcpp::Rcout << "combined size: " << ndat+nxx << ", ans size: " << ans.size() << std::endl;
 		Rcpp::stop("Dimension mismatch in convolveCpp");
 	};
 	// zero-out
-	xab.fill(0);
+	ans.fill(0);
 	// convolve
-	for (int i = 0; i < na; i++) {
-		for (int j = 0; j < nb; j++) {
-			xab[i + j] += a[i] * b[j];
+	for (size_t ii = 0; ii < nxx; ii++) {
+		for (size_t jj = 0; jj < ndat; jj++) {
+			ans[ii + jj] += xx[ii] * dat[jj];
 		}
 	}
+}
+
+// [[Rcpp::export]]
+void lconvolveCpp(Rcpp::List ll) {
+    auto xx = ll("xx");
+    auto dat = ll("dat");
+    auto ans = ll("answer");
+    convolveCpp(xx, dat, ans);
 }

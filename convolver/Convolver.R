@@ -1,29 +1,43 @@
 library(Rcpp)
 sourceCpp('convolve.cpp')
 
+## data defn
 Convolver <- setRefClass("Convolver",
 	fields = list(
-		data = "numeric", 
-		answer = "numeric"
-	),
-	methods = list(
-		convolve = function(x) {
-			dim_new <- length(x)+length(data)-1
-			## only re-alloc if necessary
-			if (length(answer) != dim_new) {
-				cat('## Realloc answer\n')
-				answer <<- numeric(dim_new)
-			}
-			convolveCpp(data, x, answer)
-			cat(c('Answer: ', round(answer,3), '\n'))
-		}
+		dat = "numeric", 
+		answer = "numeric",
+        .list = "list"
 	)
 )
-
-kernel1 <- c(1,3,1)/5
-kernel2 <- c(2,1,2)/5
-dat <- c(1:5, 0, 5:1)
-
-the_test <- Convolver$new(data=dat/sum(dat))
-the_test$convolve(kernel1)
-the_test$convolve(kernel2)
+## setup
+Convolver$methods(
+    initialize=function(dat=NULL) {
+        if (!is.null(dat)) {
+            dat <<- dat
+        }
+    }
+)
+## main computation
+Convolver$methods(
+    convolve = function(xx, do.list=F, loud=F) {
+        dim_new <- length(xx)+length(dat)-1
+        ## only re-alloc if necessary
+        if (length(answer) != dim_new) {
+            if( loud) {
+                cat('## Realloc answer\n')
+            }
+            answer <<- numeric(dim_new)
+        }
+        .list$xx <<- xx
+        .list$dat <<- dat
+        .list$answer <<- answer
+        if (do.list) {
+            lconvolveCpp(.list)
+        } else {
+            convolveCpp(xx, dat, answer)
+        }
+        if( loud) {
+            cat(c('Answer: ', round(answer,3), '\n'))
+        }
+    }
+)
