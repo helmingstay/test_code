@@ -18,11 +18,13 @@ the_test$convolve(kernel2, loud=T)
 
 long1 <- Convolver$new(dat.long)
 long2 <- long1$copy()
+long3 <- long1$copy()
 ## run benchmark
-timings = microbenchmark(times=1e6, 
+timings = microbenchmark(times=1e5, 
     list=list(
-        not.list=long1$convolve(kernel.long),
-        do.list=long2$convolve(kernel.long, do.list=T)
+        do.sep=long1$convolve(kernel.long),
+        do.list=long2$convolve(kernel.long, do='list'),
+        do.pack=long3$convolve(kernel.long, do='pack')
     )
 )
 

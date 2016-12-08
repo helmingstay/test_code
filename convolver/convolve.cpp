@@ -1,5 +1,30 @@
 #include <Rcpp.h>
 using Rcpp::NumericVector;
+using Rcpp::NumericMatrix;
+using Rcpp::List;
+using Rcpp::Rcout;
+
+// list getter
+// take Rcpp proxy, get SEXP, then construct 
+template <class Tin, class Tout>
+void setter(Tin in, Tout & set) {
+    SEXP tmp(in);
+    Tout ret(tmp);
+    set = ret;
+}
+
+struct Pack {
+    Pack(List in) {
+        setter(in["xx"], xx);
+        setter(in["dat"], dat);
+        setter(in["answer"], answer);
+        setter(in["a_mat"], a_mat);
+    }
+    NumericVector xx;
+    NumericVector dat;
+    NumericVector answer;
+    NumericMatrix a_mat;
+};
 
 // [[Rcpp::export]]
 void convolveCpp(const NumericVector xx, const NumericVector dat, NumericVector ans) {
@@ -23,6 +48,11 @@ void convolveCpp(const NumericVector xx, const NumericVector dat, NumericVector 
 void lconvolveCpp(Rcpp::List ll) {
     auto xx = ll("xx");
     auto dat = ll("dat");
-    auto ans = ll("answer");
-    convolveCpp(xx, dat, ans);
+    auto answer = ll("answer");
+    convolveCpp(xx, dat, answer);
+}
+
+// [[Rcpp::export]]
+void pconvolveCpp(Pack pp) {
+    convolveCpp(pp.xx, pp.dat, pp.answer);
 }

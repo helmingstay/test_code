@@ -6,9 +6,10 @@ Convolver <- setRefClass("Convolver",
 	fields = list(
 		dat = "numeric", 
 		answer = "numeric",
-        .list = "list"
+        ldat = "list"
 	)
 )
+
 ## setup
 Convolver$methods(
     initialize=function(dat=NULL) {
@@ -19,7 +20,10 @@ Convolver$methods(
 )
 ## main computation
 Convolver$methods(
-    convolve = function(xx, do.list=F, loud=F) {
+    convolve = function(xx, 
+        do=c('sep','list','pack'),
+        loud=F
+    ) {
         dim_new <- length(xx)+length(dat)-1
         ## only re-alloc if necessary
         if (length(answer) != dim_new) {
@@ -28,14 +32,16 @@ Convolver$methods(
             }
             answer <<- numeric(dim_new)
         }
-        .list$xx <<- xx
-        .list$dat <<- dat
-        .list$answer <<- answer
-        if (do.list) {
-            lconvolveCpp(.list)
-        } else {
-            convolveCpp(xx, dat, answer)
-        }
+        ldat$xx <<- xx
+        ldat$dat <<- dat
+        ldat$answer <<- answer
+        ldat$a_mat <<- dat %*% dat
+        do <- match.arg(do)
+        switch(do,
+            sep=convolveCpp(xx, dat, answer),
+            list=lconvolveCpp(ldat),
+            pack=pconvolveCpp(ldat)
+        )
         if( loud) {
             cat(c('Answer: ', round(answer,3), '\n'))
         }
