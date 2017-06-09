@@ -19,5 +19,10 @@ the.dat <- within(the.dat, {
     resp <- .main.effect + noise + pred * (1+.tx.effect[as.character(tx)])
 })
 
+## two model formulations
 mod.1 <- lm(resp ~ pred:tx, the.dat)
 mod.2 <- lm(resp ~ pred + pred:tx, the.dat)
+
+##inspect
+summary(mod.1)
+summary(mod.2)
