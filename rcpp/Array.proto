@@ -1,0 +1,12 @@
+syntax = "proto2";
+package Array;
+// see https://developers.google.com/protocol-buffers/docs/reference/cpp-generated#fields
+
+message a2d {
+    optional uint32 dim1 = 10;
+    optional uint32 dim2 = 20;
+    // add more dims here
+    //
+    // numeric vector
+    repeated float  payload = 50;
+}
