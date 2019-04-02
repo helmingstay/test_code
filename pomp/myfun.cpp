@@ -1,4 +1,6 @@
 // Includes are order dependent??
+// Does not compile
+// Called by rcpp.pomp.R
 //
 // [[Rcpp::plugins(pomp)]]
 #include <pomp.h>
