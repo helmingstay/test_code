@@ -8,6 +8,7 @@ config <- list(
         0, 0, 0, 0.1,
         0, 0, 0, 0
     )),
+    # S, Ix2
     qcon=c(1,2,2),
     ## observation model 
     hmod = list(
