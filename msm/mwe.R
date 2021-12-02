@@ -1,13 +1,17 @@
 library(msm)
 library(data.table)
-set.seed(7)
+set.seed(8)
+
+## msm docs: 
+# * obstrue=1 required for censor effects (add note to censor?)
+# * censor.state list: length 1 fails without error
 
 pars <- list(
     nsubject = 1e2,
-    q.i = 0.1
+    q.i = 0.05
 )
 
-## S, Ix2, R
+## SI
 .nstate <- 2
 
 ## time of infection, recovery
@@ -60,8 +64,9 @@ result <- msm(data=panel,
     subject=id,
     #obstrue=obstrue,
     censor = c(-1, -2),
-    censor.states=list(c(1),c(1,2)),
+    censor.states=list(c(2,2),c(2)),
     obstrue = ifelse(obs<0, 1, NA),
+    #obstrue = ifelse(obs<0, 0, NA),
     est.initprobs=F,
     qmatrix=config$qmat,
     hmodel=config$hmod,
