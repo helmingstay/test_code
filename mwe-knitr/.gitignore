@@ -1,0 +1,4 @@
+## ignore knitr-generated files
+template.tex
+*.pdf
+./figure

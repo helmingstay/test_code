@@ -1,0 +1,114 @@
+\documentclass[11pt]{article}
+
+%% This is latex code
+%% latex setup, rarely changes
+\input{preamble.sty}
+%% Figure captions, compatible with 
+\input{captions.tex}
+
+%% knitr setup: 
+%% figure dimensions, disable messages, etc
+%% for details see https://yihui.org/knitr/options/
+<<r setup, echo=F>>=
+## This is R code (inside chunk)
+    knitr::opts_chunk$set(
+        fig.pos='h!',
+        warning=FALSE, message=FALSE, eval=TRUE,
+        include=TRUE, echo=FALSE,
+        fig.width=7, fig.height=4.5,
+        dev=c('pdf','png'), dpi=300,
+        size = 'footnotesize'
+    )
+
+    ## fig dim in inches: align R and latex display
+    .fig.width=c(3.42,4.5,7)
+    .out.width=paste0(.fig.width, 'in')
+## end-of-chunk symbol:
+@
+
+<<r run-plots, echo=F>>=
+## define/create figures (plot to files later)
+source('plots.R')
+@
+
+\begin{document}
+
+\section*{Reproducible publication-quality figures with \texttt{knitr}}
+%% Include build date to help track document version
+\let\thefootnote\relax\footnote{Document by C.E. Gunning, built on \today}
+
+\subsection*{What problems do \texttt{knitr} solve?}
+\begin{itemize}
+\item Reproducibly create publication-ready figures
+\item Integrate with latex / overleaf (e.g., captions and cross-references)
+\item Combine all figures and captions (including cross-references) into one pdf
+\end{itemize}
+
+\subsection*{Some details}
+\begin{itemize}
+\item \texttt{template.Rnw}: primary document 
+    \subitem Sweave document (\texttt{.Rnw}) combines \LaTeXe and R
+    \subitem Lots more details in comments
+\item Build document in R:
+    \subitem \texttt{> source("0build.R")}
+\item Output: 
+    \subitem \texttt{./figures}: Directory containing production-ready figures named by chunk labels (below)
+    \subitem \texttt{template.pdf}: Combined pdf w/captions: 
+    \subitem \texttt{template.tex}: Intermediate file, don't edit!
+    \subitem \texttt{template.log}: Useful for debugging
+\end{itemize}
+
+
+\clearpage
+
+%% "diamond-cut" (below) is a user-defined chunk label 
+%% can be used as a figure cross-reference (see captions.tex)
+<<diamond-cut, fig.cap="Not all diamonds are equal. Caption in R: must escape Latex commands ($\\alpha, \\beta$).", fig.height=3.5, fig.width=.fig.width[1], out.width=.out.width[1]>>=
+## defined in plots.R
+p.cut
+@
+
+%% Full-width figure
+<<diamond-cut-color, fig.cap="Are some diamonds are more equal than others? See also Figure \\ref{fig:diamond-cut}.", fig.height=3.5, fig.width=.fig.width[3], out.width=.out.width[3]>>=
+## defined in plots.R
+p.cut.color + gg.xlab.rot
+@
+
+%% Store caption in latex command (escape once here)
+%% 1.5 column figure
+%% Define figure in chunk
+<<rnorm-group, fig.cap="\\capRnormGroup", fig.height=3, fig.width=.fig.width[2], out.width=.out.width[2]>>=
+ngrp <- 5; nrep <- 100
+dat <- expand.grid(Group=LETTERS[1:ngrp], rep=1:100)
+dat$obs <- (1:ngrp)+rnorm(nrow(dat))
+(
+    ggplot(dat, aes(x=Group, y=obs)) 
+    + geom_boxplot()
+    + labs(y='Random normal deviate')
+    + gg.theme
+)
+@
+
+\clearpage
+
+\subsection*{Template design considerations}
+\begin{itemize}
+\item Multilanguage development imposes a mental load of mode-switching
+    \subitem \textbf{Example:} Sweave comments in latex (main text) vs R (in chunk)
+    \subitem \textbf{Goal:} reduce frequency of mode-switching, separate R vs latex content
+\item Integrate with latex / overleaf 
+    \subitem \textbf{Example:} \texttt{captions.tex}
+    \subitem \textbf{Goal:} minimize error-prone manual interventions (copy/paste, figure cross-referencing)
+\item Trade-off between flexibility and complexity
+    \subitem \textbf{Example:} Stata versus R
+    \subitem \textbf{Goal: make easy problems easy and hard problems possible}.
+\end{itemize}
+
+\subsection*{Conclusion: empowering reproducible collaboration}
+Shared tools \& conventions can aid in collaboration. For example, Github and Overleaf are two widely-used collaborative platforms that reduce administrative overhead. However, conventions \textit{can} restrict flexibility.  For example, \LaTeXe offers powerful typesetting tools, but is not accepted by many journals (esp. in certain fields).
+
+In a programming environment like R or Python, many different methods can achieve the same ends (e.g., statistical analysis, figures, or a final document). No one way is `correct'; however, some methods may offer more flexibility, or may impose conventions to reduce complexity. Moreover, single-developer solutions may prove less flexible or more complex when used in collaboration (and vise versa).
+
+In this spirit, I view this template as \textit {one example} for creating production-quality figures with \textit{knitr} and \LaTeXe. Across multiple iterations, I have tried to minimize complexity while retaining flexibility, and to retain compatibility with Overleaf and common journal submission requirements.
+
+\end{document}
