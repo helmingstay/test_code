@@ -1,7 +1,11 @@
 ## Take 2
 ## based on https://kingaa.github.io/pomp/vignettes/R_v_C.html
+## Fail... pomp requires dots
+##
+## Pass dll + function directly?
+## See https://tpetzoldt.github.io/deSolve-compiled/deSolve-compiled.html
 
-library(pomp2)
+library(pomp)
 ## contains Rcpp myfun defn
 sourceCpp('process.cpp', verbose=T, rebuild=T)
 

@@ -61,6 +61,8 @@ source('plots.R')
 
 \clearpage
 
+%% see plots.R for objects and functions below
+
 %% "diamond-cut" (below) is a user-defined chunk label 
 %% can be used as a figure cross-reference (see captions.tex)
 <<diamond-cut, fig.cap="Not all diamonds are equal. Caption in R: must escape Latex commands ($\\alpha, \\beta$).", fig.height=3.5, fig.width=.fig.width[1], out.width=.out.width[1]>>=
@@ -74,7 +76,19 @@ p.cut
 p.cut.color + gg.xlab.rot
 @
 
-%% Store caption in latex command (escape once here)
+
+%% Latex table
+<<tab-color, results='as.is'>>=
+my.kable(tab.color, caption='Diamond counts by color.')
+@
+
+%% Knitr auto-labels tables by chunk name (see \ref{})
+<<tab-color-cut, results='as.is'>>=
+my.kable(tab.color.cut, caption='Diamond counts by color (row) and cut (columns). See also Table \\ref{tab:tab-color}.')
+@
+
+%% Store caption in latex command (see captions.tex)
+%% This simplifies escaping
 %% 1.5 column figure
 %% Define figure in chunk
 <<rnorm-group, fig.cap="\\capRnormGroup", fig.height=3, fig.width=.fig.width[2], out.width=.out.width[2]>>=

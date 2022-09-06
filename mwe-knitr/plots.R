@@ -12,7 +12,11 @@ gg.theme <- (
 
 ## helper theme
 gg.xlab.rot <- theme(axis.text.x=element_text(angle=90, hjust=1))
-    
+
+## helper function: latex tables
+my.kable <- function(x, format='latex', digits=1, escape=F, ...) {
+    kable(x, format=format, booktabs=T, linesep="", escape=escape, digits=digits, ...)
+}
 
 ## see ?diamonds for details 
 p.cut <- (
@@ -25,3 +29,14 @@ p.cut <- (
 
 ## modify above figure
 p.cut.color <- p.cut + facet_grid(~color)
+
+## sample frequency, percent
+tab.color <- as.data.frame(
+    xtabs(~color, data=diamonds)
+)
+tab.color <- within(tab.color,
+    Percent <- 100*Freq/sum(Freq)
+)
+
+## xtabs returns wide form by default
+tab.color.cut <- xtabs(~color+cut, data=diamonds)
