@@ -65,7 +65,7 @@ source('plots.R')
 
 %% "diamond-cut" (below) is a user-defined chunk label 
 %% can be used as a figure cross-reference (see captions.tex)
-<<diamond-cut, fig.cap="Not all diamonds are equal. Caption in R: must escape Latex commands ($\\alpha, \\beta$).", fig.height=3.5, fig.width=.fig.width[1], out.width=.out.width[1]>>=
+<<diamond-cut, fig.cap="Not all diamonds are equal. Caption in R: must escape Latex commands ($\\alpha, \\beta$).", fig.height=2.5, fig.width=.fig.width[1], out.width=.out.width[1]>>=
 ## defined in plots.R
 p.cut
 @

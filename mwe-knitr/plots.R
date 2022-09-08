@@ -6,6 +6,7 @@ gg.theme <- (
     theme_bw(base_size=12)
     + theme(
         panel.grid.minor=element_blank(),
+        panel.grid.major=element_blank(),
         legend.background=element_blank(),
     )
 )
