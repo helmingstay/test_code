@@ -1,0 +1,17 @@
+\usepackage[numbers, sort&compress]{natbib}
+\usepackage[format=hang,justification=raggedright,singlelinecheck=false]{caption}
+\captionsetup{font=scriptsize,labelfont=scriptsize}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage{longtable,booktabs}
+
+\newcommand{\beginSI}{
+    \setcounter{table}{0}
+    \renewcommand{\thetable}{S\arabic{table}}
+    \setcounter{figure}{0}
+    \renewcommand{\thefigure}{S\arabic{figure}}                 
+    \setcounter{page}{1}
+    \renewcommand{\thepage}{S\arabic{page}}
+}
