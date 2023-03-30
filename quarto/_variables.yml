@@ -1,0 +1,3 @@
+# https://quarto.org/docs/authoring/variables.html
+SomeText: "Variable text"
+## Use as {{< var SomeText >}}

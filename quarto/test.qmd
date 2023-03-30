@@ -1,5 +1,6 @@
 ---
-title: "My document"
+title: "Quarto test doc"
+
 format:
   pdf:
     toc: false
@@ -9,30 +10,64 @@ format:
     include-in-header:
       - preamble.tex
     keep-tex: false
+    fig-width: 6
+    fig-height: 3.5
+## see https://quarto.org/docs/computations/execution-options.html#knitr-options
+knitr:
+  opts_chunk: 
+    echo: false
+    message: false
 ## comments in YAML block
 # https://quarto.org/docs/output-formats/pdf-basics.html#overview
 # qmd comments: https://github.com/quarto-dev/quarto-cli/discussions/3330
 # See _quarto.yml for project settings
 ---
 
+
 <!-- Comments in body -->
 
 ```{r}
 #| label: setup
 library(ggplot2)
+library(glue)
+library(wrapr)
+cap <- within(list(), {
+    air <- "The air caption (N={nrow(airquality)})."
+}) %.>% lapply(., glue::glue)
 ```
 
 
 ## Air Quality
 
-@fig-airquality further explores the impact of temperature on ozone level.
+@fig-airquality further explores the impact of temperature on ozone level (N=`r nrow(airquality)`).
 
-```{r}
+```{r, fig.cap=cap$air}
 #| label: fig-airquality
-#| fig-cap: "Temperature and ozone level."
 #| warning: false
 
 ggplot(airquality, aes(Temp, Ozone)) + 
   geom_point() + 
   geom_smooth(method = "loess")
 ```
+
+{{< pagebreak >}}
+
+## Other examples
+
+* This is a variable: {{< var SomeText >}}.
+
+```{bash}
+ls -lh test.qmd
+```
+
+```{mermaid}
+#| include: false
+flowchart LR
+  A[Hard edge] --> B(Round edge)
+  B --> C{Decision}
+  C --> D[Result one]
+  C --> E[Result two]
+```
+
+
+Rendered on \today\ by C.E. Gunning.
