@@ -1,0 +1,100 @@
+---
+## In R, compile with:
+# library(quarto)
+# quarto_render("test.qmd")
+
+title: "A minimum working example"
+format:
+  pdf:
+    toc: false
+    number-sections: false
+    colorlinks: true
+    #cite-method: natbib
+    include-in-header:
+    ## latex packages go here:
+      - preamble.tex
+    keep-tex: false
+
+## see https://quarto.org/docs/computations/execution-options.html#knitr-options
+## and https://quarto.org/docs/reference/cells/cells-knitr.html#figures
+knitr:
+  opts_chunk: 
+    ## individual pdfs created here, named by chunk
+    fig.path: ./figure/
+    ## set all to false for final render
+    warning: true
+    echo: false
+    message: false
+    ## default dims of pdfs in figure/
+    fig-width: 5
+    fig-height: 3.5
+    ## default dimensions in rendered document
+    ## typically matches above
+    out-width: 5in
+    out-height: 3.5in
+
+## comments in YAML block
+# https://quarto.org/docs/output-formats/pdf-basics.html#overview
+# qmd comments: https://github.com/quarto-dev/quarto-cli/discussions/3330
+---
+
+# Example of Quarto with R
+* Figures generated with knitr
+* PDF rendered with latex
+
+<!-- Comments in body look like this-->
+
+```{r}
+#| label: setup
+## run all project R code here by sourcing scripts
+set.seed(42.3145)
+source('libraries.R')
+## captions, with interpolation of {vars}
+cap <- within(list(), {
+    boring <- "A boring caption"
+    air <- "The air caption (N={nrow(airquality)})."
+    diamond <- "Some diamonds with latex in caption (A$\\ge$B)."
+}) %.>% lapply(., glue::glue)
+```
+
+## Air Quality
+
+@fig-airqual further explores the impact of temperature on ozone level (N=`r nrow(airquality)`).
+
+```{r, fig.cap=cap$air, fig.height=3}
+#| label: fig-airqual
+
+ggplot(airquality, aes(Temp, Ozone)) + 
+  geom_point() + 
+  geom_smooth(method = "loess") +
+  theme_bw()
+```
+
+\clearpage
+
+```{r, fig.cap=cap$diamond }
+#| label: fig-diamond
+#| fig-height: 4
+#| out-height: 4in
+#| fig-width: 4
+#| out-width: 4in
+
+## random draw a subset of data
+dat <- slice_sample(diamonds, prop=0.1)
+## base plot
+p.diam <- (
+    ggplot(dat, aes(x=cut, y=price))
+    + theme_bw()
+)
+
+plot_grid(
+    ncol=1,
+    labels=c('A','B'),
+    ## specialize
+    p.diam + geom_boxplot(),
+    p.diam + aes(x=carat) + geom_point(size=0.5, shape=1) + geom_smooth(method = "gam")
+)
+```
+
+Normal latex variables work:
+Rendered on \today\ by C.E. Gunning.

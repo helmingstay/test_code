@@ -1,5 +1,9 @@
 ---
-title: "Quarto test doc"
+## In R, compile with:
+# library(quarto)
+# quarto_render("test.qmd")
+
+title: "This is my title"
 
 format:
   pdf:

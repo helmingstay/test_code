@@ -1,0 +1,5 @@
+## was _quarto.yml: project file
+## effects all subdirs
+project:
+  #title: "Quarto test"
+  output-dir: output
