@@ -1,0 +1,22 @@
+## Requirements:
+# Install mamba: https://github.com/conda-forge/miniforge
+# check ~.condarc (copy user.condrc to ~/.condarc)
+#
+## Usage:
+# mamba  env create -f ./pyg.yml
+# mamba activate pyg
+name: pyg
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - python
+  - pip
+  ## R / bioconductor
+  - r-base
+  - r-essentials
+  - r-data.table
+  - r-wrapr
+  - r-tidyverse
+  - r-ggplot2
